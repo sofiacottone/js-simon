@@ -12,7 +12,7 @@ const userCorrectNumbers = document.querySelector('#user-numbers');
 // creo un array con 5 numeri randomici
 let randomNumbers = [];
 while (randomNumbers.length < 5) {
-    let randomNum = getRndInteger(1, 5);
+    let randomNum = getRndInteger(1, 100);
     if (!randomNumbers.includes(randomNum)) {
         randomNumbers.push(randomNum);
     }
@@ -22,37 +22,11 @@ console.log(randomNumbers);
 // lo pusho del dom per mostrarli all'utente
 card.innerHTML = randomNumbers;
 
-// faccio partire un timer di 30 sec
-let timer = 1;
-let correctNumbers = [];
-timerContainer.innerHTML = `${timer} sec`;
-const clock = setInterval(function () {
-    --timer;
-    timerContainer.innerHTML = `${timer} sec`;
-    // quando il timer arriva a 0 stoppo il timer 
-    if (timer == 0) {
-        clearInterval(clock);
-        timerContainer.innerHTML = 'Inserisci i numeri';
+// imposto un timeout per svuotare la card contenente i numeri random
+setTimeout(clearDOM, 30000);
 
-        // finito il timer faccio scomparire l'array dal dom
-        card.innerHTML = '';
-
-        // chiedo all'utente di inserire i numeri corretti
-        for (let i = 0; i < randomNumbers.length; i++) {
-            thisNumber = parseInt(prompt('Inserisci i numeri'));
-            // inserisco i numeri dell'utente in un array solo se corretti
-            if (randomNumbers.includes(thisNumber) && !correctNumbers.includes(thisNumber)) {
-                correctNumbers.push(thisNumber);
-            }
-        }
-        console.log('correct numbers:', correctNumbers);
-        // output all'utente
-        // timerContainer.innerHTML = 'I numeri che hai indovinato sono:';
-        // card.innerHTML = randomNumbers;
-        userCorrectNumbers.innerHTML = correctNumbers;
-    }
-
-}, 1000)
+// imposto un timeout per far partire il gioco
+setTimeout(startGame, 33000);
 
 
 
@@ -92,6 +66,32 @@ function getRandomUniqueNumber(min, max, blackList) {
 // return -> numero intero random tra il minimo e il massimo
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// 3
+// viene chiamata da un setTimout e serve a svuotare l'elemento del dom
+function clearDOM() {
+    card.innerHTML = '';
+}
+
+// 4
+// viene chiamata da un setTimout e serve a gestire il gioco
+function startGame() {
+    const correctNumbers = [];
+
+    for (let i = 0; i < randomNumbers.length; i++) {
+        let userNumber = parseInt(prompt('Inserisci numero'));
+        // inserisco i numeri dell'utente in un array solo se corretti
+        if (randomNumbers.includes(userNumber) && !correctNumbers.includes(userNumber)) {
+            correctNumbers.push(userNumber);
+        }
+    }
+    // stampo nel dom i numeri indovinati
+    timerContainer.innerHTML = `Hai indovinato ${correctNumbers.length} numeri. I numeri che hai indovinato sono:`;
+    userCorrectNumbers.innerHTML = correctNumbers;
+    // faccio ricomparire i numeri originali per il confronto
+    card.innerHTML = randomNumbers;
+
 }
 
 // #endregion
