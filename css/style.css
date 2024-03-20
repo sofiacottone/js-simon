@@ -1,0 +1,17 @@
+main {
+    height: calc(100vh - 5.625rem);
+    overflow-y: auto;
+}
+
+footer {
+    height: 2.125rem;
+    line-height: 2.125rem;
+}
+
+.ms-random-nums {
+    width: 120px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
